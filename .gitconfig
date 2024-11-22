@@ -1,0 +1,6 @@
+[user]
+	name = Basit
+	email = basitwarsi2595@gmail.com
+[core]
+	editor = code --wait
+	autocrlf = input
