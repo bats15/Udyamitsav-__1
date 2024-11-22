@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purchase Premium Access</title>
+    <style>
+        /* Base Styling */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f7fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Form Container */
+        .purchase-form {
+            width: 360px;
+            padding: 25px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Form Heading */
+        .purchase-form h2 {
+            font-size: 1.5em;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        /* Labels and Input Fields */
+        .purchase-form label {
+            font-size: 0.9em;
+            color: #555;
+            margin-bottom: 6px;
+            display: block;
+            font-weight: 500;
+        }
+        .purchase-form input[type="text"],
+        .purchase-form input[type="email"],
+        .purchase-form input[type="tel"],
+        .purchase-form input[type="text"].upi-id {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 0.95em;
+            color: #333;
+            transition: border-color 0.3s ease;
+        }
+        .purchase-form input[type="text"]:focus,
+        .purchase-form input[type="email"]:focus,
+        .purchase-form input[type="tel"]:focus,
+        .purchase-form input[type="text"].upi-id:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        /* Total Amount */
+        .total-amount {
+            margin: 15px 0;
+            padding: 12px;
+            background-color: #f0f4f8;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.1em;
+            color: #007bff;
+        }
+
+        /* Submit Button */
+        .purchase-form input[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            background-color: #007bff;
+            color: #ffffff;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+        .purchase-form input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="purchase-form">
+    <h2 id="Access">Purchase Premium Access</h2>
+    <form id="purchaseForm">
+        <label for="username">Name</label>
+        <input type="text" id="username" name="username" placeholder="Enter your name" required>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
+
+        <label for="upi-id">UPI ID</label>
+        <input type="text" id="upi-id" name="upi-id" class="upi-id" placeholder="Enter your UPI ID" required>
+
+        <div class="total-amount">
+            Total Payable: $<span id="totalAmount">0.00</span>
+        </div>
+
+        <input type="submit" value="Proceed to Payment">
+    </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const type = urlParams.get('type');  // Get type from URL
+        if (type) {
+            assign(type);  // Update the page based on type
+        }
+    });
+
+    function assign(id) {
+        const totalAmountElem = document.getElementById('totalAmount');
+        const accessElem = document.getElementById('Access');
+        
+        if (id === "standard-buy") {
+            totalAmountElem.innerHTML = '150';
+            accessElem.innerHTML = "Purchase Standard Access";
+        } else if (id === "premium-buy") {
+            totalAmountElem.innerHTML = '250';
+            accessElem.innerHTML = "Purchase Premium Access";
+        } else if (id === "pro-buy") {
+            totalAmountElem.innerHTML = '350';
+            accessElem.innerHTML = "Purchase Pro Access";
+        }
+    }
+
+    const form = document.getElementById('purchaseForm');
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const username = form.username.value;
+        const email = form.email.value;
+        const phone = form.phone.value;
+        const upiId = form['upi-id'].value;
+
+        const totalAmount = document.getElementById('totalAmount').textContent;
+        const type = new URLSearchParams(window.location.search).get('type');  // Get the type from URL
+
+        // Construct the URL with the query parameters including the form data
+        const url = `payment-confirmation.html?type=${encodeURIComponent(type)}&amount=${encodeURIComponent(totalAmount)}&username=${encodeURIComponent(username)}&email=${encodeURIComponent(email)}&phone=${encodeURIComponent(phone)}&upi-id=${encodeURIComponent(upiId)}`;
+
+        // Redirect to the confirmation page with the URL
+        window.location.href = url;
+    });
+</script>
+
+</body>
+</html>
